@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="nda-logo.png">
+    <link rel="stylesheet" href="all.css">
+    <title>NDA 75RC</title>
+</head>
+<body>
+    <header class="header trans">
+        <div class="icons">
+            <img src="./nda-logo.png" class="icon-img">
+            <h2 class="icon-txt"><span class="green">NDA</span> <span class="gold">75RC</span> <span class="red">Special</span></h2>
+        </div>
+        <nav>
+            <ul class="nav trans">
+                <li><a href="index.html" class="trans">Home</a></li>
+                <li><a href="#" class="trans nav-link">About</a></li>
+                <li><a href="#" class="trans nav-link">News</a></li>
+                <li><a href="#" class="trans nav-link">Event</a></li>
+            </ul>
+            <div class="navBtn trans">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="hero">
+            <h2 class="eventTitle">Countdown To End Of Break</h2>
+        <div class="container">
+            <div class="cards">
+                <div class="count" id="months"></div>
+                <div class="cardName">Month(s)</div>
+            </div>
+            <div class="cards">
+                <div class="count" id="weeks"></div>
+                <div class="cardName">week(s)</div>
+            </div>
+            <div class="cards">
+                <div class="count" id="day"></div>
+                <div class="cardName">day(s)</div>
+            </div>
+            <div class="cards">
+                <div class="count" id="hrs"></div>
+                <div class="cardName">hour(s)</div>
+            </div>
+            <div class="cards">
+                <div class="count" id="mins"></div>
+                <div class="cardName">minute(s)</div>
+            </div>
+            <div class="cards">
+                <div class="count" id="secs"></div>
+                <div class="cardName">second(s)</div>
+            </div>
+        </div>
+        </div>
+        <div class="notavailable">
+            <h2><span class="green">This page</span> <span class="gold">is not</span><span class="red"> available</span></h2>
+            <button id="backpage">back</button>
+        </div>
+    </main>
+
+    <script>
+        
+        let Day = "14 April 2024";
+        let oneDay = 60 * 60 * 24 * 1000;
+
+// Document Elements
+        const monthEL = document.getElementById("months");
+        const weekEl = document.getElementById("weeks");
+        const hrsEl = document.getElementById("hrs");
+        const dayEl = document.getElementById("day");
+        const minEl = document.getElementById('mins');
+        const secsEl = document.getElementById('secs');        
+
+        // Countdown Function
+       function countDown() {
+        let countDay = new Date(Day);
+        let today = new Date();
+        let currentMonth = today.getMonth();
+        let countDayDigits = countDay.getTime();
+        let remainingTime = countDayDigits - today;
+
+        function round(index) {
+            if(index < 10) {
+                index = `0${index}`
+            }
+            return index
+        }
+// Countdown Mathematics
+        let remainingMins = Math.floor((remainingTime % (60*60*1000)) / (60 * 1000));
+        let remainingSeconds = Math.floor((remainingTime % (60*1000)) / 1000);
+        let remainingHrs = Math.floor((remainingTime % oneDay )/ (60 * 60 * 1000));
+        let remainingDays = Math.floor(remainingTime / oneDay);
+        let remainingWeeks = Math.floor(remainingDays / 7);
+        let remainMonths = Math.floor(remainingWeeks / 4.25) ;
+
+        // Into Document Element
+        monthEL.innerHTML = round(remainMonths)
+        weekEl.innerHTML = round(remainingWeeks);
+        dayEl.innerHTML = round(remainingDays);
+        hrsEl.innerHTML = round(remainingHrs);
+        minEl.innerHTML = round(remainingMins);
+        secsEl.innerHTML = round(remainingSeconds);
+
+        // console.log(remainingSeconds);
+       }
+
+       window.addEventListener('load', ()=> {
+        setInterval(countDown, 1000);
+       })
+
+    //    dom Elements
+       const navBtn = document.querySelector('.navBtn');
+       const navEl = document.querySelector('.nav');
+       const headerEl = document.querySelector(".header");
+       const  nextPageEl = document.querySelector('.notavailable')
+       const backPageBtn = document.getElementById('backpage');
+       const navLinks = document.querySelectorAll('.nav-link');
+
+    //    Click Evet for Nav Btn
+
+    navBtn.addEventListener('click',()=> {
+        navEl.classList.toggle('open');
+        navBtn.classList.toggle('red')
+    })
+
+    backPageBtn.addEventListener('click',() => {
+        nextPageEl.classList.remove('open')
+    })
+
+    navLinks.forEach((navLink) => {
+        navLink.addEventListener('click', () => {
+            navEl.classList.remove('open');
+            nextPageEl.classList.add('open')
+        })
+    })
+
+    window.addEventListener('scroll', ()=> {
+      if(scrollY > 60) {
+        headerEl.classList.add('fixed')
+      }else {
+        headerEl.classList.remove('fixed')
+      }
+      
+    })
+        
+    </script>
+    <script src="./all.js"></script>
+</body>
+</html>
